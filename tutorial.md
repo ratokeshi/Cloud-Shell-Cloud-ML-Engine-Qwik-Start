@@ -49,7 +49,8 @@ pip install --user --upgrade tensorflow
 ```bash
 python -c "import tensorflow as tf; print('TensorFlow version {} is installed.'.format(tf.VERSION))"
 ```
-    1. You can ignore any warnings that the TensorFlow library wasn't compiled to use certain instructions.
+
+You can ignore any warnings that the TensorFlow library wasn't compiled to use certain instructions.
 
 
 5. Clone the example repo
@@ -111,7 +112,7 @@ Now that you have downloaded and inspected your training data, you will install 
 
 11. Install dependencies
 Although TensorFlow is installed on Cloud Shell, you must run the sample's requirements.txt file to ensure you are using the same version of TensorFlow required by the sample:
-```script
+```bash
 pip install --user -r ../requirements.txt
 ```
 It will take a couple minutes for this command to complete. You will receive a similar output when it does:
@@ -155,8 +156,8 @@ Launch TensorBoard:
 ```bash
 tensorboard --logdir=$MODEL_DIR --port=8080
 ```
-Click on the Web Preview icon, then Preview on port 8080. A new tab will open with TensorBoard running.
-devshell-web-preview-button
+Click on the Web Preview icon `walkthrough web-preview-icon`, then Preview on port 8080. A new tab will open with TensorBoard running.
+<devshell-web-preview-button></devshell-web-preview-button>
 
 Click on Accuracy to see graphical representations of how accuracy changes as your job progresses.
 
