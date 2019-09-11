@@ -6,16 +6,26 @@ This lab will give you hands-on practice with TensorFlow model training, both lo
 
 This lab gives you an introductory, end-to-end experience of training and prediction on Cloud Machine Learning Engine. The lab will use a census dataset to:
 
-Create a TensorFlow training application and validate it locally.
-Run your training job on a single worker instance in the cloud.
-Run your training job as a distributed training job in the cloud.
-Optimize your hyperparameters by using hyperparameter tuning.
-Deploy a model to support prediction.
-Request an online prediction and see the response.
-Request a batch prediction.
-### Prerequisites
+* Create a TensorFlow training application and validate it locally.
+* Run your training job on a single worker instance in the cloud.
+* Run your training job as a distributed training job in the cloud.
+* Optimize your hyperparameters by using hyperparameter tuning.
+* Deploy a model to support prediction.
+* Request an online prediction and see the response.
+* Request a batch prediction.
 
- -  You have a Google Cloud Platform account and a Google Project (note the Google Project Id) provided by Gitlab.
+### What you will build ###
+The sample builds a wide and deep model for predicting income category based on United States Census Income Dataset. The two income categories (also known as labels) are:
+
+>50K — Greater than 50,000 dollars
+<=50K — Less than or equal to 50,000 dollars
+Wide and deep models use deep neural nets (DNNs) to learn high-level abstractions about complex features or interactions between such features. These models then combine the outputs from the DNN with a linear regression performed on simpler features. This provides a balance between power and speed that is effective on many structured data problems.
+
+The sample defines the model using TensorFlow's prebuilt DNNCombinedLinearClassifier class. The sample defines the data transformations particular to the census dataset, then assigns these (potentially) transformed features to either the DNN or the linear portion of the model.
+
+## Prerequisites ##
+
+ -  You have a Google Cloud Platform account and a Google Project (note the Google Project Id) provided by Gitlab. You can find this on the left side of the QwikLab page.
 
 ## Install Prerequisites
 
@@ -24,42 +34,43 @@ Request a batch prediction.
 gcloud auth list
 ```
 
-1. Check your current project.
+2. Check your current project.
 ```bash
 gcloud config list project
 ```
 
-1. Run the following command to install TensorFlow:
+## Install TensorFlow ##
+
+3. Run the following command to install TensorFlow:
 ```bash
 pip install --user --upgrade tensorflow
 ```
-    
 
-1. Verify the installation:
+4. Verify the installation:
 ```bash
 python -c "import tensorflow as tf; print('TensorFlow version {} is installed.'.format(tf.VERSION))"
 ```
     1. You can ignore any warnings that the TensorFlow library wasn't compiled to use certain instructions.
 
 
-1. Clone the example repo
+5. Clone the example repo
 ```bash
 git clone https://github.com/GoogleCloudPlatform/cloudml-samples.git
 ```
 
-1. Navigate to the cloudml-samples > census > estimator directory. The commands in this lab must be run from the estimator directory:
+6. Navigate to the cloudml-samples > census > estimator directory. The commands in this lab must be run from the estimator directory:
 ```bash
 cd cloudml-samples
 cd census
 cd estimator
 ```
 
-1. Check your current directory 
+7. Check your current directory 
 ```bash
 $pwd
 ```
 
-Develop and validate your training application locally
+## Develop and validate your training application locally ##
 Before you run your training application in the cloud, get it running locally. Local environments provide an efficient development and validation workflow so that you can iterate quickly. You also won't incur charges for cloud resources when debugging your application locally.
 
 Get your training data
@@ -74,37 +85,40 @@ gsutil -m cp gs://cloud-samples-data/ml-engine/census/data/* data/
 ```
 
 
-1.  Now set the TRAIN_DATA and EVAL_DATA variables to your local file paths by running the following commands:
+8.  Now set the TRAIN_DATA and EVAL_DATA variables to your local file paths by running the following commands:
 ```bash
 export TRAIN_DATA=$(pwd)/data/adult.data.csv
 export EVAL_DATA=$(pwd)/data/adult.test.csv
 ```
 
-1.  To open the adult.data.csv file, run the following command:
-```bash
+9.  To open the adult.data.csv file, run the following command:
+`
+``bash
 head data/adult.data.csv
 ```
 
-1.  You will see that the data is stored in comma-separated value format that resembles the following:
-```bash
+10.  You will see that the data is stored in comma-separated value format that resembles the following:
+Output |
+-------|
 39, State-gov, 77516, Bachelors, 13, Never-married, Adm-clerical, Not-in-family, White, Male, 2174, 0, 40, United-States, <=50K
 50, Self-emp-not-inc, 83311, Bachelors, 13, Married-civ-spouse, Exec-managerial, Husband, White, Male, 0, 0, 13, United-States, <=50K
 38, Private, 215646, HS-grad, 9, Divorced, Handlers-cleaners, Not-in-family, White, Male, 0, 0, 40, United-States, <=50K
-53, Private, 234721, 11th, 7, Married-civ-spouse, Handlers-cleaners, Husband, Black, Male, 0, 0, 40, United-States, <=50K
-...
+53, Private, 234721, 11th, 7, Married-civ-spouse, Handlers-cleaners, Husband, Black, Male, 0, 0, 40, United-States, <=50K |
+
 Now that you have downloaded and inspected your training data, you will install the necessary dependencies.
 
-1. Install dependencies
+11. Install dependencies
 Although TensorFlow is installed on Cloud Shell, you must run the sample's requirements.txt file to ensure you are using the same version of TensorFlow required by the sample:
 ```script
 pip install --user -r ../requirements.txt
 ```
 It will take a couple minutes for this command to complete. You will receive a similar output when it does:
-```script
-Successfully installed Keras-2.2.4 future-0.16.0 numexpr-2.6.9 numpy-1.14.5 pandas-0.24.1 python-dateutil-2.8.0 pyyaml-3.13 scipy-1.2.1 setuptools-39.1.0 tensorboard-1.10.0 tensorflow-1.10.0
-```
+Output |
+-------|
+Successfully installed Keras-2.2.4 future-0.16.0 numexpr-2.6.9 numpy-1.14.5 pandas-0.24.1 python-dateutil-2.8.0 pyyaml-3.13 scipy-1.2.1 setuptools-39.1.0 tensorboard-1.10.0 tensorflow-1.10.0 |
 
-1. Run a local training job
+
+12. Run a local training job
 A local training job loads your Python training program and starts a training process in an environment that's similar to that of a live Cloud ML Engine cloud training job.
 
 Specify an output directory and set a MODEL_DIR variable by running the following command: 
@@ -112,7 +126,7 @@ Specify an output directory and set a MODEL_DIR variable by running the followin
 export MODEL_DIR=output
 ```
 
-1. Run this training job locally by running the following command:
+13. Run this training job locally by running the following command:
 ```bash
 gcloud ai-platform local train \
     --module-name trainer.task \
@@ -139,11 +153,18 @@ Launch TensorBoard:
 ```bash
 tensorboard --logdir=$MODEL_DIR --port=8080
 ```
+Click on the Web Preview icon, then Preview on port 8080. A new tab will open with TensorBoard running.
+devshell-web-preview-button
 
+Click on Accuracy to see graphical representations of how accuracy changes as your job progresses.
 
-
+Type CTRL+C in Cloud Shell to shut down TensorBoard.
 
 ## Create a TensorFlow training application and validate it locally.
+
+The output/export/census directory holds the model exported as a result of running training locally. List that directory to see the generated timestamp subdirectory:
+
+
 ## Run your training job on a single worker instance in the cloud.
 ## Run your training job as a distributed training job in the cloud.
 ## Optimize your hyperparameters by using hyperparameter tuning.
