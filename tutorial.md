@@ -1,5 +1,6 @@
-## GSP076 ##
-# Tutorial on Google Cloud ML Engine #
+# GSP076 #
+
+# Tutorial: Cloud ML Engine: Qwik Start #
 
 ## Cloud ML Engine
 This lab will give you hands-on practice with TensorFlow model training, both locally and on Cloud ML Engine. After training, you will learn how to deploy your model to Cloud ML Engine for serving (prediction). You'll train your model to predict income category of a person using the United States Census Income Dataset.
