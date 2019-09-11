@@ -1,13 +1,157 @@
-# Tutorial on Google Natural Language API
+# Tutorial on Google Cloud ML Engine #
 
-## Google Natural Language API
-We shall use the Google Natural Language API to demonstrate how easy it is to get started with Sentiment Analysis. Keep in mind that Sentiment Analysis is just one of the capabilities that the Natural Language API has, in addition to detecting entities, Language Analysis and more. 
+## Cloud ML Engine
+This lab will give you hands-on practice with TensorFlow model training, both locally and on Cloud ML Engine. After training, you will learn how to deploy your model to Cloud ML Engine for serving (prediction). You'll train your model to predict income category of a person using the United States Census Income Dataset.
 
+This lab gives you an introductory, end-to-end experience of training and prediction on Cloud Machine Learning Engine. The lab will use a census dataset to:
+
+Create a TensorFlow training application and validate it locally.
+Run your training job on a single worker instance in the cloud.
+Run your training job as a distributed training job in the cloud.
+Optimize your hyperparameters by using hyperparameter tuning.
+Deploy a model to support prediction.
+Request an online prediction and see the response.
+Request a batch prediction.
 ### Prerequisites
 
- -  You have a Google Cloud Platform account and a Google Project (note the Google Project Id).
- -  You have enabled the Google Cloud Natural Language API for the above project. To do that, go to the Cloud Console, click on the main menu, then APIs and Services --> Library. Type in Natural Language API and select + enable it.
- -  You will also need a Service Account to invoke the Natural Language API from our own application. We shall do that in the next step.
+ -  You have a Google Cloud Platform account and a Google Project (note the Google Project Id) provided by Gitlab.
+
+## Install Prerequisites
+
+1. Verify current account from QwikLab
+```bash
+gcloud auth list
+```
+
+1. Check your current project.
+```bash
+gcloud config list project
+```
+
+1. Run the following command to install TensorFlow:
+```bash
+pip install --user --upgrade tensorflow
+```
+    
+
+1. Verify the installation:
+```bash
+python -c "import tensorflow as tf; print('TensorFlow version {} is installed.'.format(tf.VERSION))"
+```
+    1. You can ignore any warnings that the TensorFlow library wasn't compiled to use certain instructions.
+
+
+1. Clone the example repo
+```bash
+git clone https://github.com/GoogleCloudPlatform/cloudml-samples.git
+```
+
+1. Navigate to the cloudml-samples > census > estimator directory. The commands in this lab must be run from the estimator directory:
+```bash
+cd cloudml-samples
+cd census
+cd estimator
+```
+
+1. Check your current directory 
+```bash
+$pwd
+```
+
+Develop and validate your training application locally
+Before you run your training application in the cloud, get it running locally. Local environments provide an efficient development and validation workflow so that you can iterate quickly. You also won't incur charges for cloud resources when debugging your application locally.
+
+Get your training data
+The relevant data files, adult.data and adult.test, are hosted in a public Google Cloud Storage bucket.
+
+You can read the files directly from Cloud Storage or copy them to your local environment. For this lab you will download the samples for local training, and later upload them to your own Cloud Storage bucket for cloud training.
+
+Run the following command to download the data to a local file directory and set variables that point to the downloaded data files:1. Check your current directory 
+```bash
+mkdir data
+gsutil -m cp gs://cloud-samples-data/ml-engine/census/data/* data/
+```
+
+
+1.  Now set the TRAIN_DATA and EVAL_DATA variables to your local file paths by running the following commands:
+```bash
+export TRAIN_DATA=$(pwd)/data/adult.data.csv
+export EVAL_DATA=$(pwd)/data/adult.test.csv
+```
+
+1.  To open the adult.data.csv file, run the following command:
+```bash
+head data/adult.data.csv
+```
+
+1.  You will see that the data is stored in comma-separated value format that resembles the following:
+```bash
+39, State-gov, 77516, Bachelors, 13, Never-married, Adm-clerical, Not-in-family, White, Male, 2174, 0, 40, United-States, <=50K
+50, Self-emp-not-inc, 83311, Bachelors, 13, Married-civ-spouse, Exec-managerial, Husband, White, Male, 0, 0, 13, United-States, <=50K
+38, Private, 215646, HS-grad, 9, Divorced, Handlers-cleaners, Not-in-family, White, Male, 0, 0, 40, United-States, <=50K
+53, Private, 234721, 11th, 7, Married-civ-spouse, Handlers-cleaners, Husband, Black, Male, 0, 0, 40, United-States, <=50K
+...
+Now that you have downloaded and inspected your training data, you will install the necessary dependencies.
+
+1. Install dependencies
+Although TensorFlow is installed on Cloud Shell, you must run the sample's requirements.txt file to ensure you are using the same version of TensorFlow required by the sample:
+```script
+pip install --user -r ../requirements.txt
+```
+It will take a couple minutes for this command to complete. You will receive a similar output when it does:
+```script
+Successfully installed Keras-2.2.4 future-0.16.0 numexpr-2.6.9 numpy-1.14.5 pandas-0.24.1 python-dateutil-2.8.0 pyyaml-3.13 scipy-1.2.1 setuptools-39.1.0 tensorboard-1.10.0 tensorflow-1.10.0
+```
+
+1. Run a local training job
+A local training job loads your Python training program and starts a training process in an environment that's similar to that of a live Cloud ML Engine cloud training job.
+
+Specify an output directory and set a MODEL_DIR variable by running the following command: 
+```bash
+export MODEL_DIR=output
+```
+
+1. Run this training job locally by running the following command:
+```bash
+gcloud ai-platform local train \
+    --module-name trainer.task \
+    --package-path trainer/ \
+    --job-dir $MODEL_DIR \
+    -- \
+    --train-files $TRAIN_DATA \
+    --eval-files $EVAL_DATA \
+    --train-steps 1000 \
+    --eval-steps 100
+```
+
+Note:
+When you run the same training job on CMLE later in the lab, you'll see that the command is not much different from the above.
+
+By default, verbose logging is turned off. You can enable it by setting the --verbosity tag to DEBUG. A later example shows you how to enable it.
+
+Inspect the summary logs using Tensorboard
+To see the evaluation results, you can use the visualization tool called TensorBoard. With TensorBoard, you can visualize your TensorFlow graph, plot quantitative metrics about the execution of your graph, and show additional data like images that pass through the graph. Tensorboard is available as part of the TensorFlow installation.
+
+Follow the steps below to launch TensorBoard and point it at the summary logs produced during training, both during and after execution.
+
+Launch TensorBoard:
+```bash
+tensorboard --logdir=$MODEL_DIR --port=8080
+```
+
+
+
+
+## Create a TensorFlow training application and validate it locally.
+## Run your training job on a single worker instance in the cloud.
+## Run your training job as a distributed training job in the cloud.
+## Optimize your hyperparameters by using hyperparameter tuning.
+## Deploy a model to support prediction.
+## Request an online prediction and see the response.
+## Request a batch prediction.
+
+
+#old lab
 
 ## Service Account Creation
 
