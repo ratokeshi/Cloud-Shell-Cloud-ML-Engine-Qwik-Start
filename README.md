@@ -12,4 +12,4 @@ Here are videos for your use:
 
 To begin the tutorial, click on the button given below:
 
-[![Open in Cloud Shell](http://gstatic.com/cloudssh/images/open-btn.png)](https://console.cloud.google.com/cloudshell/open?git_repo=https://gitlab.com/ratokeshi-gitlab-demo/Google-Cloud-Shell-Tutorial-Creation=tutorial.md)
+[![Open in Cloud Shell](http://gstatic.com/cloudssh/images/open-btn.png)](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/ratokeshi/Cloud-Shell-Cloud-ML-Engine-Qwik-Start=tutorial.md)
