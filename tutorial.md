@@ -1,7 +1,5 @@
 # GSP076 #
-
 # Tutorial: Cloud ML Engine: Qwik Start #
-
 ## Cloud ML Engine
 This lab will give you hands-on practice with TensorFlow model training, both locally and on Cloud ML Engine. After training, you will learn how to deploy your model to Cloud ML Engine for serving (prediction). You'll train your model to predict income category of a person using the United States Census Income Dataset.
 
@@ -65,10 +63,14 @@ cd cloudml-samples
 cd census
 cd estimator
 ```
+You are in the /cloudml-samples/census/estimator subdirectory.  If your prompt is too long you can shorten it to the user and last folder with:
+```bash
+PS1='\u:\W\$ '
+```
 
 7. Check your current directory 
 ```bash
-$pwd
+pwd
 ```
 
 ## Develop and validate your training application locally ##
@@ -93,8 +95,7 @@ export EVAL_DATA=$(pwd)/data/adult.test.csv
 ```
 
 9.  To open the adult.data.csv file, run the following command:
-`
-``bash
+```bash
 head data/adult.data.csv
 ```
 
