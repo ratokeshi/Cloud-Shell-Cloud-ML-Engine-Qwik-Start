@@ -116,9 +116,9 @@ Although TensorFlow is installed on Cloud Shell, you must run the sample's requi
 pip install --user -r ../requirements.txt
 ```
 It will take a couple minutes for this command to complete. You will receive a similar output when it does:
-Output |
--------|
-Successfully installed Keras-2.2.4 future-0.16.0 numexpr-2.6.9 numpy-1.14.5 pandas-0.24.1 python-dateutil-2.8.0 pyyaml-3.13 scipy-1.2.1 setuptools-39.1.0 tensorboard-1.10.0 tensorflow-1.10.0 |
+Output | |
+-------|-|
+Successfully installed Keras-2.2.4 future-0.16.0 numexpr-2.6.9 numpy-1.14.5 pandas-0.24.1 python-dateutil-2.8.0 pyyaml-3.13 scipy-1.2.1 setuptools-39.1.0 tensorboard-1.10.0 tensorflow-1.10.0 | |
 
 
 12. Run a local training job
