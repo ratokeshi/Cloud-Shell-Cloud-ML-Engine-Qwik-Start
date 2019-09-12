@@ -184,10 +184,11 @@ You should receive a similar output:
 
 Copy the timestamp that was generated.
 
-Run the following command in Cloud Shell, replacing <timestamp> with your timestamp:
+Run the following command in Cloud Shell, replacing <timestamp> with your timestamp but do not press enter until the next step.:
 ```bash
 gcloud ai-platform local predict --model-dir output/export/census/<timestamp> 
 ```
+Append the next modifyer into the console and enter.
 ```bash
 --json-instances ../test.json
 ```
@@ -328,9 +329,9 @@ Select the exported model to use, by looking up the full path of your exported t
 gsutil ls -r $OUTPUT_PATH/export
 ```
 Scroll through the output to find the value of $OUTPUT_PATH/export/census/<timestamp>/. Copy timestamp and add it to the following command to set the environment variable MODEL_BINARIES to its value:
-
+```bash
 MODEL_BINARIES=$OUTPUT_PATH/export/census/<timestamp>/
-
+```
 Note: The timestamp for this training run will not be the same as the timestamp generated during your local training run above. Be sure to scroll through the gsutil ls output to find this new timestamp.
 
 You'll deploy this trained model.
