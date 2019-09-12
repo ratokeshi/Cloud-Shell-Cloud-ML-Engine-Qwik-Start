@@ -1,5 +1,4 @@
-# GSP076 #
-# Tutorial: Cloud ML Engine: Qwik Start #
+# GSP076 -- Tutorial: Cloud ML Engine: Qwik Start #
 ## Cloud ML Engine
 This lab will give you hands-on practice with TensorFlow model training, both locally and on Cloud ML Engine. After training, you will learn how to deploy your model to Cloud ML Engine for serving (prediction). You'll train your model to predict income category of a person using the United States Census Income Dataset.
 
@@ -26,7 +25,7 @@ The sample defines the model using TensorFlow's prebuilt DNNCombinedLinearClassi
 
  -  You have a Google Cloud Platform account and a Google Project (note the Google Project Id) provided by Gitlab. You can find this on the left side of the QwikLab page.
 
-## Install Prerequisites
+## Install Prerequisites ##
 
 1. Verify current account from QwikLab
 ```bash
@@ -157,7 +156,10 @@ Launch TensorBoard:
 tensorboard --logdir=$MODEL_DIR --port=8080
 ```
 Click on the Web Preview icon `walkthrough web-preview-icon`, then Preview on port 8080. A new tab will open with TensorBoard running.
-<devshell-web-preview-button></devshell-web-preview-button>
+<walkthrough-spotlight-pointer spotlightId="devshell-web-preview-button"
+                               text="Open Web Preview">
+</walkthrough-spotlight-pointer>
+
 
 Click on Accuracy to see graphical representations of how accuracy changes as your job progresses.
 
